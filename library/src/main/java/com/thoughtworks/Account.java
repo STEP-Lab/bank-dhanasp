@@ -2,12 +2,12 @@ package com.thoughtworks;
 
 public class Account {
     private final String accountNumber;
-    private final float balance;
-
+    private float balance;
+    private final float minimumBalance=200;
     public Account(String accountNumber, float balance) throws MinimumExceptionError, InvalidAccountNumberException {
         validateAccountNumber(accountNumber);
         this.accountNumber = accountNumber;
-        if (balance<=200){
+        if (balance<=minimumBalance){
             throw new MinimumExceptionError();
         }
         this.balance = balance;
@@ -24,7 +24,10 @@ public class Account {
         return balance;
     }
 
-    public float debit(float amount) {
-        return balance-amount;
+    public void debit(float amount) throws MinimumExceptionError {
+        balance -= amount;
+        if (balance<=minimumBalance){
+            throw new MinimumExceptionError();
+        }
     }
 }

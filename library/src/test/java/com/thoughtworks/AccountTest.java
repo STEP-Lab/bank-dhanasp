@@ -32,8 +32,14 @@ public class AccountTest {
     }
 
     @Test
-    public void shouldDebitAmountFromAccount() {
-        assertThat(account1.debit(100),is(900.0f));
+    public void shouldDebitAmountFromAccount() throws InvalidAccountNumberException, MinimumExceptionError {
+        Account account=new Account("2345-7890",1000);
+        account.debit(200.0f);
+        assertThat(account.getBalance(),is(800.0f));
     }
 
+    @Test (expected = MinimumExceptionError.class)
+    public void shouldDebitUptoMinimumBalance() throws MinimumExceptionError {
+       account1.debit(860);
+    }
 }
