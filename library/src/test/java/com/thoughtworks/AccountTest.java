@@ -28,7 +28,12 @@ public class AccountTest {
 
     @Test(expected = InvalidAccountNumberException.class)
     public void shouldValidateAccountNumber() throws MinimumExceptionError, InvalidAccountNumberException {
-       Account account =new Account("1234",1000);
+       new Account("1234",1000);
+    }
+
+    @Test
+    public void shouldDebitAmountFromAccount() {
+        assertThat(account1.debit(100),is(900.0f));
     }
 
 }

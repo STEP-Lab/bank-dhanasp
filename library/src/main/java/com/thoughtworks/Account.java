@@ -1,5 +1,4 @@
 package com.thoughtworks;
-import java.util.regex.*;
 
 public class Account {
     private final String accountNumber;
@@ -15,7 +14,7 @@ public class Account {
     }
 
     private static void validateAccountNumber(String accountNumber) throws InvalidAccountNumberException {
-        boolean match=Pattern.matches("\\d{4}-\\d{4}", accountNumber);
+        boolean match=accountNumber.matches("\\d{4}-\\d{4}");
         if (!match){
             throw new InvalidAccountNumberException();
         }
@@ -23,5 +22,9 @@ public class Account {
 
     public float getBalance() {
         return balance;
+    }
+
+    public float debit(float amount) {
+        return balance-amount;
     }
 }
