@@ -11,7 +11,7 @@ public class AccountTest {
     private Account account1;
 
     @Before
-    public void setUp() throws MinimumExceptionError, InvalidAccountNumberException {
+    public void setUp() throws MinimumBalanceException, InvalidAccountNumberException {
         account1 = new Account("1234-2345", 1000);
     }
 
@@ -19,27 +19,35 @@ public class AccountTest {
     public void shouldCheckBalance() {
         float balance  = 1000.0f;
         assertThat(account1.getBalance(),is(balance));
+        assertThat(account1.getBalance(),is(balance));
     }
 
-    @Test(expected = MinimumExceptionError.class)
-    public void shouldCheckForMinimumBalance() throws MinimumExceptionError, InvalidAccountNumberException {
+    @Test(expected = MinimumBalanceException.class)
+    public void shouldCheckForMinimumBalance() throws MinimumBalanceException, InvalidAccountNumberException {
         new Account("2345-3232",200);
     }
 
     @Test(expected = InvalidAccountNumberException.class)
-    public void shouldValidateAccountNumber() throws MinimumExceptionError, InvalidAccountNumberException {
+    public void shouldValidateAccountNumber() throws MinimumBalanceException, InvalidAccountNumberException {
        new Account("1234",1000);
     }
 
     @Test
-    public void shouldDebitAmountFromAccount() throws InvalidAccountNumberException, MinimumExceptionError {
+    public void shouldDebitAmountFromAccount() throws InvalidAccountNumberException, MinimumBalanceException {
         Account account=new Account("2345-7890",1000);
         account.debit(200.0f);
         assertThat(account.getBalance(),is(800.0f));
     }
 
-    @Test (expected = MinimumExceptionError.class)
-    public void shouldDebitUptoMinimumBalance() throws MinimumExceptionError {
+    @Test (expected = MinimumBalanceException.class)
+    public void shouldDebitUptoMinimumBalance() throws MinimumBalanceException {
        account1.debit(860);
+    }
+
+    @Test
+    public void shouldCreditAmountInAccount() throws MinimumBalanceException, InvalidAccountNumberException {
+        Account account=new Account("1234-2121",1000);
+        account.credit(300);
+        assertThat(account.getBalance(),is(1300.0f));
     }
 }

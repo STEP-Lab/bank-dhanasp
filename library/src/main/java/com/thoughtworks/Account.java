@@ -4,16 +4,16 @@ public class Account {
     private float balance;
     private final String accountNumber;
     private static final float minimumBalance=200;
-    public Account(String accountNumber, float balance) throws MinimumExceptionError, InvalidAccountNumberException {
+    public Account(String accountNumber, float balance) throws MinimumBalanceException, InvalidAccountNumberException {
         validateAccountNumber(accountNumber);
         this.accountNumber = accountNumber;
+        validateBalance("Insufficient balance to create Account",balance);
         this.balance = balance;
-        validateBalance("Insufficient balance to create Account");
     }
 
-    private void validateBalance(String msg) throws MinimumExceptionError {
+    private void validateBalance(String msg,float balance) throws MinimumBalanceException {
         if (balance<=minimumBalance){
-            throw new MinimumExceptionError(msg);
+            throw new MinimumBalanceException(msg);
         }
     }
 
@@ -28,8 +28,12 @@ public class Account {
         return balance;
     }
 
-    public void debit(float amount) throws MinimumExceptionError {
+    public void debit(float amount) throws MinimumBalanceException {
         balance -= amount;
-        validateBalance("debit declined due to low balance");
+        validateBalance("debit declined due to low balance",balance);
+    }
+
+    public void credit(float amount) {
+        balance+=amount;
     }
 }
