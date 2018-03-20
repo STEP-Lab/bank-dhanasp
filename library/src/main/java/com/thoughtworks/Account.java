@@ -1,16 +1,20 @@
 package com.thoughtworks;
 
 public class Account {
-    private final String accountNumber;
     private float balance;
-    private final float minimumBalance=200;
+    private final String accountNumber;
+    private static final float minimumBalance=200;
     public Account(String accountNumber, float balance) throws MinimumExceptionError, InvalidAccountNumberException {
         validateAccountNumber(accountNumber);
         this.accountNumber = accountNumber;
-        if (balance<=minimumBalance){
-            throw new MinimumExceptionError();
-        }
         this.balance = balance;
+        validateBalance("Insufficient balance to create Account");
+    }
+
+    private void validateBalance(String msg) throws MinimumExceptionError {
+        if (balance<=minimumBalance){
+            throw new MinimumExceptionError(msg);
+        }
     }
 
     private static void validateAccountNumber(String accountNumber) throws InvalidAccountNumberException {
@@ -26,8 +30,6 @@ public class Account {
 
     public void debit(float amount) throws MinimumExceptionError {
         balance -= amount;
-        if (balance<=minimumBalance){
-            throw new MinimumExceptionError();
-        }
+        validateBalance("debit declined due to low balance");
     }
 }
