@@ -6,6 +6,8 @@ import com.thoughtworks.exception.InvalidCreditAmountException;
 import com.thoughtworks.exception.InvalidDebitAmountException;
 import com.thoughtworks.exception.MinimumBalanceException;
 
+import java.util.Date;
+
 public class Account {
     private final String accountNumber;
     private static final float minimumBalance=200;

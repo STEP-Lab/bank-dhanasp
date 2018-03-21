@@ -42,6 +42,7 @@ public class AccountTest {
         assertThat(account.getBalance(),is(800.0f));
     }
 
+
     @Test (expected = InvalidDebitAmountException.class)
     public void shouldDebitUptoMinimumBalance() throws InvalidDebitAmountException {
        account1.debit(860.0f);
