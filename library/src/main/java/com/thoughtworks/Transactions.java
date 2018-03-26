@@ -18,6 +18,7 @@ public class Transactions {
         return allTransactions;
     }
 
-
-
+    public void credit(float amount, AccountNumber to) {
+        this.allTransactions.add(new CreditTransaction(amount,to));
+    }
 }

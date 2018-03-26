@@ -1,6 +1,5 @@
 package com.thoughtworks;
 
-import com.thoughtworks.DebitTransaction;
 import com.thoughtworks.exception.InvalidAccountNumberException;
 import org.junit.Test;
 
@@ -13,8 +12,9 @@ public class TransactionTest {
     @Test
     public void checkDateOfTransaction() throws InvalidAccountNumberException {
         Date date = new Date();
-       Transaction transaction= new DebitTransaction(date,100,new AccountNumber("1223-2345"));
-        assertThat(transaction.getDate(),is(date));
+        String dateInString=date.toString();
+        Transaction transaction= new DebitTransaction(100,new AccountNumber("1223-2345"));
+        assertThat(transaction.getDate().toString(),is(dateInString));
     }
 
 

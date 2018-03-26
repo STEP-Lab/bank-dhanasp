@@ -16,4 +16,11 @@ public class TransactionsTest {
         transactions.debit(1000,to);
         assertThat(transactions.allTransactions,hasItem(new DebitTransaction(new Date(),1000,new AccountNumber("1235-1234"))));
     }
+    @Test
+    public void addCreditTransactions() throws InvalidAccountNumberException {
+        Transactions transactions=new Transactions();
+        AccountNumber to=new AccountNumber("1235-1234");
+        transactions.credit(1000,to);
+        assertThat(transactions.allTransactions,hasItem(new CreditTransaction(new Date(),1000,new AccountNumber("1235-1234"))));
+    }
 }

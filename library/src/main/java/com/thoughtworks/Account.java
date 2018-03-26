@@ -6,25 +6,32 @@ import com.thoughtworks.exception.InvalidDebitAmountException;
 import com.thoughtworks.exception.MinimumBalanceException;
 
 public class Account {
-    private static final float minimumBalance=200;
-    private float balance;
+    private static float minimumBalance=200;
+    private double balance;
+    private AccountNumber accountNumber;
 
-    public Account(AccountNumber accountNumber, float balance) throws MinimumBalanceException {
+    public static Account create(AccountNumber accountNumber, double balance) throws MinimumBalanceException {
         validateBalance(balance);
+        return new Account(accountNumber,balance);
+    }
+
+    public Account(AccountNumber accountNumber, double balance) throws MinimumBalanceException {
+        this.accountNumber = accountNumber;
         this.balance=balance;
     }
 
-    public float getBalance() {
+
+    public double getBalance() {
         return balance;
     }
 
-    private static void validateBalance(float balance) throws MinimumBalanceException {
+    private static void validateBalance(double balance) throws MinimumBalanceException {
         if (balance<=minimumBalance){
             throw new MinimumBalanceException();
         }
     }
 
-    public float debit(float amountCanDebited) throws InvalidDebitAmountException {
+    public double debit(double amountCanDebited) throws InvalidDebitAmountException {
         if (canDebit(amountCanDebited)){
             balance= balance - amountCanDebited;
             return balance;
@@ -32,12 +39,12 @@ public class Account {
         throw new InvalidDebitAmountException();
     }
 
-    private boolean canDebit(float amountCanDebited) {
-        float remaining_balance=balance - amountCanDebited;
+    private boolean canDebit(double amountCanDebited) {
+        double remaining_balance=balance - amountCanDebited;
         return remaining_balance>=minimumBalance;
     }
 
-    public float credit(float amount) throws InvalidCreditAmountException {
+    public double credit(double amount) throws InvalidCreditAmountException {
         if (canCredit(amount)) {
             balance=balance+amount;
             return balance;
@@ -45,7 +52,7 @@ public class Account {
         throw new InvalidCreditAmountException();
     }
 
-    private boolean canCredit(float creditAmount) {
+    private boolean canCredit(double creditAmount) {
         return creditAmount>0;
     }
 

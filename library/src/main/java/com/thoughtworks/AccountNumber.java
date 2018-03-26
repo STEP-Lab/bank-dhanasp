@@ -32,7 +32,6 @@ public class AccountNumber {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(accountNumber);
     }
 }

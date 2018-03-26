@@ -16,40 +16,40 @@ public class AccountTest {
 
     @Before
     public void setUp() throws Exception {
-        account1 = new Account(new AccountNumber("1234-2345"),1000);
+        account1=Account.create(new AccountNumber("1234-2345"),1000);
     }
 
     @Test
-    public void shouldCheckBalance() {
-        float balance  = 1000;
+    public void shouldCheckBalance() throws InvalidAccountNumberException, MinimumBalanceException {
+        double balance  = 1000;
         assertThat(account1.getBalance(),is(balance));
     }
 
     @Test(expected = MinimumBalanceException.class)
     public void shouldCheckForMinimumBalance() throws MinimumBalanceException, InvalidAccountNumberException {
-        Account account = new Account(new AccountNumber("1234-2345"),100);
+        Account account = Account.create(new AccountNumber("1234-2345"),100);
 
     }
 
     @Test
     public void shouldDebitAmountFromAccount() throws MinimumBalanceException, InvalidDebitAmountException, InvalidAccountNumberException {
-        Account account=new Account(new AccountNumber("2345-7890"),1000);
-        account.debit(200.0f);
-        assertThat(account.getBalance(),is(800.0f));
+        Account account=Account.create(new AccountNumber("2345-7890"),1000);
+        account.debit(200);
+        assertThat(account.getBalance(),is(800.0));
     }
 
 
     @Test (expected = InvalidDebitAmountException.class)
     public void shouldDebitUptoMinimumBalance() throws InvalidDebitAmountException, InvalidAccountNumberException, MinimumBalanceException {
         Account account=new Account(new AccountNumber("2345-7890"),1000);
-        account1.debit(860.0f);
+        account.debit(860);
     }
 
     @Test
     public void shouldCreditAmountInAccount() throws MinimumBalanceException, InvalidAccountNumberException, InvalidCreditAmountException {
         Account account=new Account(new AccountNumber("2345-7890"),1000);
         account.credit(300);
-        assertThat(account.getBalance(),is(1300.0f));
+        assertThat(account.getBalance(),is(1300.0));
     }
 
     @Test
