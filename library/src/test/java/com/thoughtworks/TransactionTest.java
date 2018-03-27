@@ -13,7 +13,7 @@ public class TransactionTest {
     public void checkDateOfTransaction() throws InvalidAccountNumberException {
         Date date = new Date();
         String dateInString=date.toString();
-        Transaction transaction= new DebitTransaction(100,new AccountNumber("1223-2345"));
+        Transaction transaction= new DebitTransaction(new Date(), 100,new AccountNumber("1223-2345"));
         assertThat(transaction.getDate().toString(),is(dateInString));
     }
 

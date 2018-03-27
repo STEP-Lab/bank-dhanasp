@@ -6,13 +6,18 @@ import java.util.Objects;
 abstract class Transaction {
     private final Date date;
     private final AccountNumber to;
-    private final float amount;
+    private final double amount;
 
-    public Transaction(Date date, float amount, AccountNumber to) {
+    public Transaction(Date date, double amount, AccountNumber to) {
         this.date = date;
         this.to = to;
         this.amount = amount;
     }
+
+    public double getAmount() {
+        return amount;
+    }
+
 
     public Date getDate() {
         return date;
@@ -23,7 +28,7 @@ abstract class Transaction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return Float.compare(that.amount, amount) == 0 &&
+        return Double.compare(that.amount, amount) == 0 &&
                 Objects.equals(to, that.to);
     }
 
@@ -32,4 +37,14 @@ abstract class Transaction {
 
         return Objects.hash(to, amount);
     }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "date=" + date +
+                ", to=" + to +
+                ", amount=" + amount +
+                '}';
+    }
+
 }
