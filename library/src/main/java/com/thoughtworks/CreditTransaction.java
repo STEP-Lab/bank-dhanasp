@@ -13,4 +13,8 @@ public class CreditTransaction extends Transaction {
         this(new Date(),amount,to);
     }
 
+    @Override
+    public String toCSV() {
+        return super.toCSV()+","+"credit";
+    }
 }

@@ -1,5 +1,6 @@
 package com.thoughtworks;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
@@ -47,4 +48,11 @@ abstract class Transaction {
                 '}';
     }
 
+    public String toCSV(){
+       ArrayList<String> transactionInCSV=new ArrayList<>();
+       transactionInCSV.add(date.toString());
+       transactionInCSV.add(to.getAccountNumber());
+       transactionInCSV.add(String.valueOf(amount));
+       return String.join(",",transactionInCSV);
+    }
 }

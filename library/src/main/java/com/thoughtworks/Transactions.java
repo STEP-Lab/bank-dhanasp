@@ -1,12 +1,11 @@
 package com.thoughtworks;
 
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Transactions {
     protected final ArrayList<Transaction> allTransactions;
-
 
     public Transactions() {
         this.allTransactions =new ArrayList<>();
@@ -36,10 +35,9 @@ public class Transactions {
 
     public void print(PrintWriter printWriter) {
         for (Transaction transaction:allTransactions){
-            printWriter.println(transaction.toString());
+            printWriter.write(transaction.toString());
         }
     }
-
 
     public Transactions getCreditTransactions() {
         Transactions creditTransactions=new Transactions();
@@ -59,5 +57,11 @@ public class Transactions {
             }
         }
         return debitTransactions;
+    }
+
+    public void printToCSVFile(PrintWriter printWriter, String[] columnNames) throws IOException {
+        CSVPrinter csvPrinter=new CSVPrinter(printWriter,columnNames);
+        csvPrinter.print(allTransactions);
+        csvPrinter.close();
     }
 }

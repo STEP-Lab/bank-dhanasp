@@ -12,4 +12,8 @@ public class DebitTransaction extends Transaction{
         this(new Date(),amount,To);
     }
 
+    @Override
+    public String toCSV() {
+        return super.toCSV()+","+"debit";
+    }
 }

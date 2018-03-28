@@ -2,15 +2,18 @@ package com.thoughtworks;
 
 import com.thoughtworks.exception.InvalidAccountNumberException;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.junit.Assert.assertThat;
@@ -19,13 +22,13 @@ public class TransactionsTest {
     private Transactions transactions;
     private Transactions resultedTransactions;
     private Transactions resultedTransactions1;
-    private Calendar calendar;
+    private ArrayList<String> result;
 
     @Before
     public void setUp(){
         transactions =new Transactions();
         resultedTransactions = new Transactions();
-        calendar=Calendar.getInstance();
+        result = new ArrayList<>();
     }
 
     @Test
@@ -94,9 +97,6 @@ public class TransactionsTest {
 
     @Test
     public void shouldPrintTransactions () throws InvalidAccountNumberException, FileNotFoundException, UnsupportedEncodingException {
-        
-        ArrayList<String> result=new ArrayList<>();
-        
         Transactions transactions1 = new Transactions();
         transactions1.credit(1000,new AccountNumber("1234-2345"));
         transactions1.debit(100,new AccountNumber("1234-5768"));
@@ -104,7 +104,7 @@ public class TransactionsTest {
         DebitTransaction debitTransaction=new DebitTransaction(new Date(), 100,new AccountNumber("1234-5768"));
         PrintWriter printWriter = new PrintWriter("transactionSummary.txt","UTF-8"){
             @Override
-            public void println(String x) {
+            public void write(String x) {
                 result.add(x);
             }
         };
@@ -113,4 +113,21 @@ public class TransactionsTest {
         assertThat(result,hasItems(creditTransaction.toString(),debitTransaction.toString()));
     }
 
+    @Test
+    public void shouldWriteToFileInCSVFormat() throws InvalidAccountNumberException, IOException {
+        String[] columnNames=new String[]{"date","source","amount","type Of transaction"};
+        PrintWriter printWriter = new PrintWriter("transactionsInCSV.csv","UTF-8"){
+            @Override
+            public void write(String x) {
+                result.add(x);
+            }
+        };
+        transactions.credit(1000,new AccountNumber("1234-1234"));
+        transactions.debit(300,new AccountNumber("1235-2345"));
+        transactions.printToCSVFile(printWriter,columnNames);
+        String expected="date,source,amount,type Of transaction\n" + new Date().toString()+
+                ",1234-1234,1000.0,credit\n"+new Date().toString()+",1235-2345,300.0,debit";
+        assertThat(String.join("\n",result),is(expected));
+
+    }
 }

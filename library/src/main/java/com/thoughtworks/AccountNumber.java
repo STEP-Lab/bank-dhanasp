@@ -41,4 +41,8 @@ public class AccountNumber {
                 "accountNumber='" + accountNumber + '\'' +
                 '}';
     }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
 }
