@@ -14,3 +14,5 @@ library/build
 out
 library/.settings
 *.iml
+.csv
+.txt
